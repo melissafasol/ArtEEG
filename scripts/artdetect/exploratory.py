@@ -1,6 +1,4 @@
 '''script to choose noise parameter values for filtering'''
-
-import os 
 import numpy as np 
 import pandas as pd 
 import scipy 
