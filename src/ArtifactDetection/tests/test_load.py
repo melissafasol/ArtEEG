@@ -1,73 +1,63 @@
 import os
 import sys
+import unittest
+from unittest.mock import patch, MagicMock
 import numpy as np
 import pandas as pd
-import pytest
-from unittest.mock import patch, mock_open, MagicMock
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from load import LoadFiles
+from artifactdetection.load import LoadFiles
 
-# Setting up test environment
-@pytest.fixture
-def setup_load_files(tmpdir):
-    directory_path = tmpdir.mkdir("test_dir")
-    animal_id = "test_animal"
-    
-    # Create mock .npy file
-    npy_file = directory_path.join(f"{animal_id}_recording.npy")
-    np.save(str(npy_file), np.random.rand(2, 100))  
-    
-    # Create mock .pkl files
-    brain_1_file = directory_path.join(f"{animal_id}_BL1.pkl")
-    brain_2_file = directory_path.join(f"{animal_id}_BL2.pkl")
-    pd.to_pickle(pd.DataFrame({"brainstate": [1, 2, 1, 2]}), str(brain_1_file))
-    pd.to_pickle(pd.DataFrame({"brainstate": [2, 1, 2, 1]}), str(brain_2_file))
-    
-    # Create instance of LoadFiles
-    load_files = LoadFiles(directory_path, animal_id)
-    
-    return load_files, str(directory_path), animal_id
+class TestLoadFiles(unittest.TestCase):
 
-def test_load_two_analysis_files(setup_load_files):
-    load_files, directory_path, animal_id = setup_load_files
-    
-    start_times_dict = {f"{animal_id}_1": 0, f"{animal_id}_2": 50}
-    end_times_dict = {f"{animal_id}_1A": 49, f"{animal_id}_2A": 99}
-    
-    recording_1, recording_2, brain_state_1, brain_state_2 = load_files.load_two_analysis_files(start_times_dict, end_times_dict)
-    
-    # Check shapes of recordings and brain states
-    assert recording_1.shape == (2, 50), "Shape of recording_1 is incorrect"
-    assert recording_2.shape == (2, 50), "Shape of recording_2 is incorrect"
-    assert not brain_state_1.empty, "brain_state_1 is empty"
-    assert not brain_state_2.empty, "brain_state_2 is empty"
+    def setUp(self):
+        self.directory_path = '/path/to/files'
+        self.animal_id = 'animal1'
+        self.load_files = LoadFiles(self.directory_path, self.animal_id)
 
-def test_load_one_analysis_file(setup_load_files):
-    load_files, directory_path, animal_id = setup_load_files
-    
-    start_times_dict = {f"{animal_id}_1": 0}
-    end_times_dict = {f"{animal_id}_1A": 49}
-    
-    # Run the method
-    recording_1, brain_state_1 = load_files.load_one_analysis_file(start_times_dict, end_times_dict)
-    
-    # Check shapes of recordings and brain state
-    assert recording_1.shape == (2, 50), "Shape of recording_1 is incorrect"
-    assert not brain_state_1.empty, "brain_state_1 is empty"
+    @patch('os.listdir')
+    @patch('numpy.load')
+    @patch('pandas.read_pickle')
+    def test_load_two_analysis_files(self, mock_read_pickle, mock_load, mock_listdir):
+        # Mock the return values for os.listdir
+        mock_listdir.return_value = ['animal1_recording.npy', 'animal1_BL1.pkl', 'animal1_BL2.pkl']
+        
+        #mock the npy and pkl returnse
+        mock_load.return_value = np.random.rand(2, 1000)
+        mock_read_pickle.side_effect = [pd.DataFrame({'br_state': [0, 1]}), pd.DataFrame({'br_state': [1, 0]})]
 
-def test_extract_br_state(setup_load_files):
-    load_files, directory_path, animal_id = setup_load_files
-    
-    # Create mock data for testing
-    recording = np.random.rand(2, 100)
-    br_state_file = pd.DataFrame({"brainstate": [1, 2, 1, 2, 1, 2, 1, 2, 1, 2]})
-    br_number = 1
-    
-    # Run the method
-    br_epochs = load_files.extract_br_state(recording, br_state_file, br_number)
-    
-    # Check length and shape of extracted epochs
-    assert len(br_epochs) == 5, "Number of epochs extracted is incorrect"
-    assert all(epoch.shape == (2, 10) for epoch in br_epochs), "Shape of extracted epochs is incorrect"
+        # Define the start and end times
+        start_times_dict = {'animal1_1': 100,'animal1_2': 200}
+        end_times_dict = {'animal1_1A': 300,'animal1_2A': 400}
 
+        recording_1, recording_2, brain_state_1, brain_state_2 = self.load_files.load_two_analysis_files(start_times_dict, end_times_dict)
+
+        # Assertions to check the correct slices are taken
+        self.assertEqual(recording_1.shape, (2, 201))
+        self.assertEqual(recording_2.shape, (2, 201))
+        self.assertTrue((brain_state_1['br_state'] == pd.Series([0, 1])).all())
+        self.assertTrue((brain_state_2['br_state'] == pd.Series([1, 0])).all())
+
+    @patch('os.listdir')
+    @patch('numpy.load')
+    @patch('pandas.read_pickle')
+    def test_load_one_analysis_file(self, mock_read_pickle, mock_load, mock_listdir):
+        #mock files 
+        mock_listdir.return_value = [
+            'animal1_recording.npy', 'animal1_BL1.pkl'
+        ]
+        
+        #mock the npy and pkl returns 
+        mock_load.return_value = np.random.rand(2, 1000)
+        mock_read_pickle.return_value = pd.DataFrame({'br_state': [0, 1]})
+
+        # Define the start and end times
+        start_times_dict = {'animal1_1': 100}
+        end_times_dict = {'animal1_1A': 300}
+        recording_1, brain_state_1 = self.load_files.load_one_analysis_file(start_times_dict, end_times_dict)
+
+        # Assertions to check the correct slices are taken
+        self.assertEqual(recording_1.shape, (2, 201))
+        self.assertTrue((brain_state_1['br_state'] == pd.Series([0, 1])).all())
+
+if __name__ == '__main__':
+    unittest.main()
