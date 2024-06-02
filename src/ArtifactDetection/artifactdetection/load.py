@@ -32,12 +32,11 @@ class LoadFiles():
         
     def load_two_analysis_files(self, start_times_dict, end_times_dict):
         animal_recording = [filename for filename in os.listdir(self.directory_path) if filename.startswith(self.animal_id) and filename.endswith('.npy')]
-        os.chdir(self.directory_path)
-        recording = np.load(animal_recording[0]) 
+        recording = np.load(self.directory_path + animal_recording[0]) 
         brain_file_1 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_1]
-        brain_state_1 = pd.read_pickle(brain_file_1[0])
+        brain_state_1 = pd.read_pickle(self.directory_path + brain_file_1[0])
         brain_file_2 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_2]
-        brain_state_2 = pd.read_pickle(brain_file_2[0])
+        brain_state_2 = self.directory_path + pd.read_pickle(brain_file_2[0])
         
         start_time_1 = start_times_dict[self.start_dict_1]
         start_time_2 = start_times_dict[self.start_dict_2]
@@ -52,10 +51,9 @@ class LoadFiles():
     
     def load_one_analysis_file(self, start_times_dict, end_times_dict):
         animal_recording = [filename for filename in os.listdir(self.directory_path) if filename.startswith(self.animal_id) and filename.endswith('.npy')]
-        os.chdir(self.directory_path)
-        recording = np.load(animal_recording[0]) 
+        recording = np.load(self.directory_path + animal_recording[0]) 
         brain_file_1 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_1]
-        brain_state_1 = pd.read_pickle(brain_file_1[0])
+        brain_state_1 = pd.read_pickle(self.directory_path + brain_file_1[0])
         
         start_time_1 = start_times_dict[self.start_dict_1]
         end_time_1 = end_times_dict[self.end_dict_1]
@@ -72,7 +70,8 @@ class LoadFiles():
     
 
 class PreprocessingDat():
-    '''Class to convert EEG recordings into appropriate format. 
+    """
+    Class to convert EEG recordings into appropriate format. 
     This analysis pipeline requires that files are in .npy format,
     if your files are in .dat - apply the functions from this class
     to convert them to .npy
@@ -82,7 +81,7 @@ class PreprocessingDat():
     montage_name = montage file (should be in .elc)
     number of electrodes = 16 
     
-    '''
+    """
     
     def __init__(self, downsampling, montage_name, num_electrodes):
         self.downsampling = downsampling
