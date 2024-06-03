@@ -73,3 +73,19 @@ class Preprocess():
         np.save(save_file_path, data_to_save)
 
         print(f'data saved for {self.raw_file}')
+        
+        
+def reformat_br_file(unformatted_folder, unformatted_file, save_folder, save_as):
+    file_path = os.path.join(unformatted_folder, unformatted_file)
+    file = pd.read_csv(file_path)
+    column_names = file.columns.values.tolist()
+    column_names = column_names[0]
+    all_br_values = list(file[str(column_names)].values)
+    start_epoch = np.arange(0, 86400, 5)
+    end_epoch = np.arange(5, 86405, 5 )
+    br_dict = {'brainstate': all_br_values, 'start_epoch': start_epoch, 'end_epoch': end_epoch}
+    br_df = pd.DataFrame(data = br_dict)
+    save_path = os.path.join(save_folder, save_as)
+    br_df.to_pickle(f'{save_path}.pkl')
+    print('brainstate file saved')
+    return br_df

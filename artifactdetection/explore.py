@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.signal import welch
 
-class SignalProcessor:
+class SignalProcessor():
     """
     Class to calculate power and slope for all epochs and return DataFrames with all power values and all slope values.
 
@@ -35,7 +35,7 @@ class SignalProcessor:
         return array
 
     def average_slope_intercept(self, epoch):
-        '''
+        """
         Calculates the average slope and intercept for a given epoch using Welch's method and linear regression.
 
         Parameters:
@@ -47,7 +47,7 @@ class SignalProcessor:
             - power (np.ndarray): The power values.
             - slope (float): The slope of the linear fit.
             - intercept (float): The intercept of the linear fit.
-        '''
+        """
         
         freq, power = welch(epoch, window='hann', fs=self.fs, nperseg=self.nperseg)
         power = self.uncase_array(power)
@@ -55,7 +55,7 @@ class SignalProcessor:
         return freq, power, slope, intercept
 
     def process_single_channel(self, chan_idx, animal_id, br_state):
-        '''
+        """
         Processes a single channel to calculate power and slope for all epochs and returns the results in DataFrames.
 
         Parameters:
@@ -67,7 +67,7 @@ class SignalProcessor:
         tuple: A tuple containing:
             - power_plot_df_ls (list of pd.DataFrame): DataFrames with power values for each epoch.
             - slope_int_df_ls (list of pd.DataFrame): DataFrames with slope and intercept values for each epoch.
-        '''
+        """
         power_plot_df_ls = []
         slope_int_df_ls = []
 
