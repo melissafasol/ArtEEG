@@ -1,6 +1,6 @@
 # ArtifactDetection: EEG Artifact Identification with the Spectral Slope
 
-Quick installation from PyPI:
+[Quick installation from PyPI](https://pypi.org/project/ArtifactDetection/0.0.1/):
 
 ```bash
 pip install ArtifactDetection==0.0.1
