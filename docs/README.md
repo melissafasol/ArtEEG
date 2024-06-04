@@ -14,6 +14,8 @@ Analyzing EEG signals often involves looking at power spectra to identify domina
 
 - Unlike other EEG preprocessing methods that need multiple electrodes and advanced signal processing knowledge, ArtifactDetection requires no prior knowledge and can remove artifacts in a few lines of code!
 
+- The plots below illustrate the power spectra before and after ArtifactDetection. In the 'Before' plot, the y-axis reveals inflated power levels for all animals. After cleaning, these levels are reduced, allowing clear spectral trends to emerge.
+
 <table>
   <tr>
     <th>Before</th>
