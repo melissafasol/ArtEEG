@@ -1,1 +1,13 @@
-results/.ipynb_checkpoints
+# OSX
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.artifactdetection.egg-info
+artifactdetection.egg-info/
+artifactdetection/devtorch.egg-info/
+dist
+
+# Jupyter Notebook
+.ipynb_checkpoints
