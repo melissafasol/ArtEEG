@@ -8,11 +8,12 @@ pip install ArtifactDetection
 
 ##  Overview
 
-Analysing EEG signals typically involves power spectra analyses to get an idea of the dominant frequency bands present (which is particularly useful for sleep analyses). However, recordings are often contaminated by artifacts (noise) which inflates the overall power. 
-- ArtifactDetection uses the spectral slope to remove these artifacts. The spectral slope is a method previously used to distinguish between conscious states by linear
-regression of the logarithmic EEG power spectra. Here, ArtifactDetection shows it can also be used to identify epochs contaminated by recording artifacts.
-- Other EEG preprocessing methods usually require several EEG electrodes and in-depth knowledge of signal processing methods such as Independent Component Analysis (ICA).
-- ArtifactDetection does not require prior knowledge of signal processing and can be used as a first-pass data cleaning method in a few lines of code!
+Analyzing EEG signals often involves looking at power spectra to identify dominant frequency bands, which is useful for sleep studies. However, noise can contaminate these recordings and increase overall power.
+
+- ArtifactDetection removes these artifacts using the spectral slope method, which involves linear regression of the logarithmic EEG power spectra. This method, previously used to distinguish conscious states, can also identify epochs contaminated by noise.
+
+- Unlike other EEG preprocessing methods that need multiple electrodes and advanced signal processing knowledge like Independent Component Analysis (ICA), ArtifactDetection requires no prior knowledge and can remove artifacts in a few lines of code!
+
 
 ## Notebooks
 **The following notebooks show you how to implement ArtifactDetection:**
