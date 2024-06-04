@@ -14,6 +14,10 @@ Analyzing EEG signals often involves looking at power spectra to identify domina
 
 - Unlike other EEG preprocessing methods that need multiple electrodes and advanced signal processing knowledge, ArtifactDetection requires no prior knowledge and can remove artifacts in a few lines of code!
 
+<p align="center">
+  <img src="before_artifact_removal.png" alt="Before" width="50%"/>
+  <img src="after_artifact_removal.png" alt="After" width="50%"/>
+</p>
 
 ## Notebooks
 **The following notebooks show you how to implement ArtifactDetection:**
