@@ -17,7 +17,7 @@ Analyzing EEG signals often involves looking at power spectra to identify domina
 
 ## Notebooks
 **The following notebooks show you how to implement ArtifactDetection:**
-1. [Preprocessing: formatting data correctly](../demo_notebooks/preprocess.ipynb)
+1. [Preprocessing: formatting data correctly](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/preprocess.ipynb)
 2. [Power: run power analysis](../demo_notebooks/power.ipynb)
 3. [Analyse: threshold and plot](../demo_notebooks/analyse.ipynb)
 
