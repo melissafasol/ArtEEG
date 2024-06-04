@@ -42,7 +42,11 @@ Power analysis requires that EEG recording files are in .npy format and correspo
 
 2. [Power: run power analysis](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/power.ipynb)
 
+This notebook shows how to run the power analysis, it requires several inputs to run which are detailed at the top of the notebook (folder path, start and end dictionaries, channel index, etc.)
+
 3. [Analyse: threshold and plot](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/analyse.ipynb)
+
+Notebook showing analysis of power calculations, including separating data by a slope threshold into clean and noisy epochs. 
 
 
 ## Citation
