@@ -12,7 +12,7 @@ Analyzing EEG signals often involves looking at power spectra to identify domina
 
 - ArtifactDetection removes these artifacts using the spectral slope method, which involves linear regression of the logarithmic EEG power spectra. This method, previously used to distinguish conscious states, can also identify epochs contaminated by noise.
 
-- Unlike other EEG preprocessing methods that need multiple electrodes and advanced signal processing knowledge like Independent Component Analysis (ICA), ArtifactDetection requires no prior knowledge and can remove artifacts in a few lines of code!
+- Unlike other EEG preprocessing methods that need multiple electrodes and advanced signal processing knowledge, ArtifactDetection requires no prior knowledge and can remove artifacts in a few lines of code!
 
 
 ## Notebooks
