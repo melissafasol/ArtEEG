@@ -16,7 +16,7 @@ class Preprocess():
     sampling_rate (int): Sampling rate of the recording in Hz.
     """
     
-    def __init__(self, raw_folder, raw_file, save_fold_path, save_as, downsampling, num_channels, sampling_rate):
+    def __init__(self, raw_folder, raw_file, save_fold_path, save_as, downsampling = 1, num_channels = 16, sampling_rate = 250.4):
         self.raw_folder = raw_folder
         self.raw_file = raw_file
         self.save_fold_path = save_fold_path
@@ -77,13 +77,12 @@ class Preprocess():
         
 def reformat_br_file(unformatted_folder, unformatted_file, save_folder, save_as):
     file_path = os.path.join(unformatted_folder, unformatted_file)
-    file = pd.read_csv(file_path)
-    column_names = file.columns.values.tolist()
-    column_names = column_names[0]
-    all_br_values = list(file[str(column_names)].values)
+    file = pd.read_excel(file_path)
+    x = [0] 
+    br_values = x + file[0].to_list()
     start_epoch = np.arange(0, 86400, 5)
     end_epoch = np.arange(5, 86405, 5 )
-    br_dict = {'brainstate': all_br_values, 'start_epoch': start_epoch, 'end_epoch': end_epoch}
+    br_dict = {'brainstate': br_values, 'start_epoch': start_epoch, 'end_epoch': end_epoch}
     br_df = pd.DataFrame(data = br_dict)
     save_path = os.path.join(save_folder, save_as)
     br_df.to_pickle(f'{save_path}.pkl')

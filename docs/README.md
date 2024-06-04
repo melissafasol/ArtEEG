@@ -3,7 +3,13 @@
 Quick installation from PyPI:
 
 ```bash
-pip install ArtifactDetection
+pip install ArtifactDetection==0.0.1
+```
+
+Import into jupyter notebook 
+
+```python
+import artifactdetection as ad
 ```
 
 ##  Overview
