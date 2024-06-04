@@ -20,7 +20,9 @@ Analyzing EEG signals often involves looking at power spectra to identify domina
 1. [Preprocessing: formatting data correctly](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/preprocess.ipynb)
 
 Power analysis requires that EEG recording files are in .npy format and corresponding brain state files are in .pkl format. If you're files are already in that format, you can skip the preprocessing step.
+
 2. [Power: run power analysis](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/power.ipynb)
+
 3. [Analyse: threshold and plot](https://github.com/melissafasol/ArtifactDetection/blob/main/demo_notebooks/analyse.ipynb)
 
 
